@@ -1,3 +1,4 @@
+import { ADD_REVIEW } from "./../constants/reviews";
 import {
   INCREMENT,
   DECREMENT,
@@ -29,4 +30,9 @@ export const deleteFromCart = id => ({
   payload: {
     id
   }
+});
+
+export const addReview = review => ({
+  type: ADD_REVIEW,
+  payload: review
 });

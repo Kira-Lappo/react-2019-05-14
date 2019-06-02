@@ -1,12 +1,16 @@
 import { combineReducers } from "redux";
-import counterReducer from "./counter";
-import cartReducer from "./cart";
-import restaurantsReducer from "./restaurants";
-import dishesReducer from "./dishes";
+import counter from "./counter";
+import cart from "./cart";
+import restaurants from "./restaurants";
+import dishes from "./dishes";
+import reviews from "./reviews";
+import users from "./users";
 
 export default combineReducers({
-  count: counterReducer,
-  restaurants: restaurantsReducer,
-  cart: cartReducer,
-  dishes: dishesReducer
+  counter,
+  restaurants,
+  cart,
+  dishes,
+  reviews,
+  users
 });

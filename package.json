@@ -5,6 +5,8 @@
   "dependencies": {
     "antd": "^3.18.1",
     "leaflet": "^1.5.1",
+    "lodash": "^4.17.11",
+    "node-uuid": "^1.4.8",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -35,6 +37,7 @@
     ]
   },
   "devDependencies": {
+    "@types/uuid": "^3.4.4",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.1",
     "husky": "^2.3.0",

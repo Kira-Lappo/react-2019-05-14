@@ -4,18 +4,19 @@ import { connect } from "react-redux";
 import { increaseCart, decreaseCart, deleteFromCart } from "../../ac";
 import "./order-list.css";
 import Price from "../price";
-import { selectAllDishesAndTotalPrice } from "../../selectors";
+import { createCartDishesSelector } from "../../selectors";
 
 class OrderList extends Component {
   render() {
     const {
       dishes,
       totalPrice,
+
       increaseCart,
       decreaseCart,
       deleteFromCart
     } = this.props;
-    console.log("OrderList render");
+    console.log("OrderList render", totalPrice, dishes);
     if (dishes.length === 0) {
       return null;
     }
@@ -71,8 +72,15 @@ class OrderList extends Component {
   }
 }
 
+const initMapStateToProps = () => {
+  const cartDishesSelector = createCartDishesSelector();
+  return (state, props) => ({
+    ...cartDishesSelector(state, props)
+  });
+};
+
 export default connect(
-  selectAllDishesAndTotalPrice,
+  initMapStateToProps,
   {
     increaseCart,
     decreaseCart,

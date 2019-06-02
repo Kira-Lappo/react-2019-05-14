@@ -1,20 +1,23 @@
 import React from "react";
 import { List } from "antd";
 import Review from "../review";
+import ReviewForm from "../review-form";
 import PropTypes from "prop-types";
 
-function ReviewList({ reviews }) {
+function ReviewList({ reviewIds, restaurantId }) {
   return (
     <List data-automation-id="review-list">
-      {reviews.map(review => (
-        <Review key={review.id} review={review} />
+      {reviewIds.map(id => (
+        <Review key={id} reviewId={id} />
       ))}
+      <ReviewForm restaurantId={restaurantId} />
     </List>
   );
 }
 
 ReviewList.propTypes = {
-  reviews: PropTypes.arrayOf(Review.propTypes.review)
+  reviewIds: PropTypes.arrayOf(PropTypes.any).isRequired,
+  restaurantId: PropTypes.any.isRequired
 };
 
 export default ReviewList;

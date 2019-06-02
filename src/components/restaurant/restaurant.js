@@ -6,6 +6,8 @@ import ReviewList from "../review-list";
 import { toggleVisibility } from "../../decorators/toggleVisibility";
 import * as PropTypes from "prop-types";
 import "./restaurant.css";
+import { connect } from "react-redux";
+import { createReviewIdsSelector } from "../../selectors";
 
 class Restaurant extends PureComponent {
   state = {
@@ -22,8 +24,7 @@ class Restaurant extends PureComponent {
       id,
       image,
       name,
-      menu,
-      reviews,
+      reviewIds,
       isMenuOpen,
       isOpen: isReviewOpen,
       toggleVisibility
@@ -36,7 +37,7 @@ class Restaurant extends PureComponent {
         <List.Item
           className="restaurant-list-item"
           actions={[
-            <AverageRating reviews={reviews} />,
+            <AverageRating restaurantId={id} />,
             <Button
               data-automation-id={`toggle-review-list-${id}`}
               onClick={toggleVisibility}
@@ -56,8 +57,10 @@ class Restaurant extends PureComponent {
             title={name}
           />
         </List.Item>
-        {isReviewOpen ? <ReviewList reviews={reviews} /> : null}
-        {isMenuOpen ? <RestaurantMenu menu={menu} /> : null}
+        {isReviewOpen ? (
+          <ReviewList restaurantId={id} reviewIds={reviewIds} />
+        ) : null}
+        {isMenuOpen ? <RestaurantMenu restaurantId={id} /> : null}
       </>
     );
   }
@@ -68,11 +71,7 @@ class Restaurant extends PureComponent {
 }
 
 Restaurant.propTypes = {
-  id: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  menu: RestaurantMenu.propTypes.menu,
-  reviews: ReviewList.propTypes.reviews,
+  restaurantId: PropTypes.string.isRequired,
 
   isMenuOpen: PropTypes.bool,
   toggleOpenMenu: PropTypes.func.isRequired,
@@ -81,4 +80,11 @@ Restaurant.propTypes = {
   toggleVisibility: PropTypes.func.isRequired
 };
 
-export default toggleVisibility(Restaurant);
+const initMapStateToProps = () => {
+  const reviewIdsSelector = createReviewIdsSelector();
+  return (state, props) => ({
+    reviewIds: reviewIdsSelector(state, props)
+  });
+};
+
+export default connect(initMapStateToProps)(toggleVisibility(Restaurant));

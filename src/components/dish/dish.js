@@ -5,7 +5,10 @@ import "./dish.css";
 import { connect } from "react-redux";
 import { increaseCart, decreaseCart } from "../../ac";
 import Price from "../price";
-import { createDishSelector } from "../../selectors";
+import {
+  createDishSelector,
+  createDishCartAmountSelector
+} from "../../selectors";
 
 function Dish(props) {
   const { id, amount, increase, decrease, price } = props;
@@ -52,11 +55,11 @@ Dish.propTypes = {
 
 const initMapStateToProps = () => {
   const dishSelector = createDishSelector();
-
-  return (state, ownProps) => {
+  const amountSelector = createDishCartAmountSelector();
+  return (state, props) => {
     return {
-      amount: state.cart[ownProps.id] || 0,
-      ...dishSelector(state, ownProps)
+      amount: amountSelector(state, props),
+      ...dishSelector(state, props)
     };
   };
 };

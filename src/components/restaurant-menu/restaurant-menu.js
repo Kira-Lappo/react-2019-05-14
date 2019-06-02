@@ -2,14 +2,16 @@ import React from "react";
 import Dish from "../dish";
 import { Row, Col } from "antd";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createRestauranMenusSelector } from "./../../selectors";
 
-function RestaurantMenu(props) {
+function RestaurantMenu({ dishes }) {
   return (
     <div data-automation-id="menu" className="restaurant-menu">
       <Row gutter={16}>
-        {props.menu.map(dishId => (
-          <Col key={dishId} span={8}>
-            <Dish id={dishId} />
+        {dishes.map(d => (
+          <Col key={d.id} span={8}>
+            <Dish dishId={d.id} />
           </Col>
         ))}
       </Row>
@@ -18,7 +20,15 @@ function RestaurantMenu(props) {
 }
 
 RestaurantMenu.propTypes = {
-  menu: PropTypes.arrayOf(PropTypes.shape(Dish.propTypes)).isRequired
+  restaurantId: PropTypes.any.isRequired
+  // menu: PropTypes.arrayOf(PropTypes.shape(Dish.propTypes)).isRequired
 };
 
-export default RestaurantMenu;
+const initMapStateToProps = () => {
+  const restauranMenusSelector = createRestauranMenusSelector();
+  return (state, props) => ({
+    dishes: restauranMenusSelector(state, props)
+  });
+};
+
+export default connect(initMapStateToProps)(RestaurantMenu);
